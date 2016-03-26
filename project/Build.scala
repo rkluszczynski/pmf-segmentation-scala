@@ -10,7 +10,7 @@ object Build extends Build {
   )
 
   lazy val root = (project in file(".")).
-    aggregate(`util`, `core`).
+    aggregate(`util`, `core`, `runner`).
     settings(
       aggregate in update := false
     )
@@ -26,4 +26,14 @@ object Build extends Build {
     settings(
       name := "pmf-segmentation-util"
     )
+
+  lazy val `runner` = (project in file("runner")).
+    settings(commonSettings: _*).
+    settings(
+      name := "pmf-segmentation-runner",
+      libraryDependencies ++= Seq(
+        "org.springframework.boot" % "spring-boot-starter" % "1.3.3.RELEASE"
+      )
+    ).
+    dependsOn(`core`, `util`)
 }
