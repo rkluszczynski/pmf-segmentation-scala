@@ -6,7 +6,11 @@ object Build extends Build {
   lazy val commonSettings = Seq(
     organization := "pl.info.rkluszczynski.pmf",
     version := "0.1.0",
-    scalaVersion := "2.11.8"
+    scalaVersion := "2.11.8",
+
+    libraryDependencies ++= Seq(
+      "org.springframework.boot" % "spring-boot-starter" % "1.3.3.RELEASE"
+    )
   )
 
   lazy val root = (project in file(".")).
@@ -30,10 +34,7 @@ object Build extends Build {
   lazy val `runner` = (project in file("runner")).
     settings(commonSettings: _*).
     settings(
-      name := "pmf-segmentation-runner",
-      libraryDependencies ++= Seq(
-        "org.springframework.boot" % "spring-boot-starter" % "1.3.3.RELEASE"
-      )
+      name := "pmf-segmentation-runner"
     ).
     dependsOn(`core`, `util`)
 }
