@@ -6,6 +6,6 @@ import scala.beans.BeanProperty
 
 @ConfigurationProperties(prefix = "pmf.grid")
 class GridFieldProperties {
-  @BeanProperty var height: Double = 1.0
-  @BeanProperty var width: Double = 1.0
+  @BeanProperty var height: Double = _
+  @BeanProperty var width: Double = _
 }

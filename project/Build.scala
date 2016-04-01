@@ -1,23 +1,26 @@
+import com.github.retronym.SbtOneJar._
 import sbt.Keys._
 import sbt._
 
 object Build extends Build {
 
-  lazy val commonSettings = Seq(
+  lazy val root = (project in file(".")).
+    aggregate(`core`, `util`, `runner`).
+    settings(
+      aggregate in update := false
+    )
+
+  private lazy val commonSettings = Seq(
     organization := "pl.info.rkluszczynski.pmf",
     version := "0.1.0",
     scalaVersion := "2.11.8",
 
     libraryDependencies ++= Seq(
       "org.springframework.boot" % "spring-boot-starter" % "1.3.3.RELEASE"
-    )
-  )
+    ),
 
-  lazy val root = (project in file(".")).
-    aggregate(`util`, `core`, `runner`).
-    settings(
-      aggregate in update := false
-    )
+    exportJars := true
+  )
 
   lazy val `core` = (project in file("core")).
     settings(commonSettings: _*).
@@ -32,9 +35,12 @@ object Build extends Build {
     )
 
   lazy val `runner` = (project in file("runner")).
+    dependsOn(`core`, `util`).
     settings(commonSettings: _*).
+    settings(oneJarSettings: _*).
     settings(
-      name := "pmf-segmentation-runner"
-    ).
-    dependsOn(`core`, `util`)
+      name := "pmf-segmentation-runner",
+
+      mainClass in oneJar := Some("pl.info.rkluszczynski.pmf.runner.Application")
+    )
 }
