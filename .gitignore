@@ -16,6 +16,6 @@ project/plugins/project/
 .scala_dependencies
 .worksheet
 
-# InteliJ files
+# InteliJ IDE specific
 .idea/
 *.iml
